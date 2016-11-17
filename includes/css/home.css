@@ -1,0 +1,603 @@
+#rep_info {
+	padding: 20px 40px;
+}
+
+#rep_info h2 {
+	color: #09C;
+	margin: 0 0 5px 0;
+}
+
+#rep_info h4 {
+	color: #777;
+	margin: 0;
+}
+
+#results_table_wrapper,
+#comments_table_wrapper {
+	margin: 0 40px;
+	overflow: auto;
+}
+
+#results_table_wrapper table {
+	border: 1px solid #EEE;
+	border-left: 0;
+	width: 100%;
+	min-width: 800px;
+	margin-bottom: 10px;
+}
+
+#results_table_wrapper table tr.bg-line {
+	background: #F6F6F6;
+}
+
+#results_table_wrapper table td {
+	border-top: 1px solid #EEE;
+}
+
+#results_table_wrapper table td,
+#results_table_wrapper table th {
+	border-left: 1px solid #EEE;
+	padding: 10px 20px;
+	position: relative;
+}
+
+#results_table_wrapper table th#sub_th {
+	padding: 5px 10px;
+	font-size: 12px;
+	font-weight: normal;
+	border-top: 1px solid #EEE;
+}
+
+#results_table_wrapper table td#sub_td {
+	font-size: 12px;
+}
+
+#results_table_wrapper #error_display {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+}
+
+#results_table_wrapper #error_display > a {
+	display: block;
+	width: 7px;
+	height: 7px;
+	border-radius: 10px;
+	background: #999;
+}
+
+#results_table_wrapper #error_display > a:hover,
+#results_table_wrapper #error_display > a.actived {
+	background: #f44336;
+}
+
+#results_table_wrapper #error_display #sub_menu {
+	position: absolute;
+	top: 0;
+	right: 100%;
+	background: #FFF;
+	z-index: 1;
+	width: 100px;
+	margin: -10px 10px 0 0;
+	border-radius: 3px;
+	padding: 15px;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+	font-size: 14px;
+	border: 1px solid #F4F4F4;
+	display: none;
+}
+
+#results_table_wrapper #error_display #sub_menu:before {
+	content: "";
+	width: 0;
+	height: 0;
+	border: 5px solid transparent;
+	border-left-color: #FFF;
+	left: 100%;
+	top: 10px;
+	position: absolute;
+}
+
+#results_table_wrapper #footer_legend {
+	font-size: 12px;
+	color: #777;
+}
+
+#comments_table_wrapper table {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	border: 1px solid #EEE;
+	border-width: 0 0 1px 1px;
+}
+
+#comments_table_wrapper table th {
+	margin: 0 0 6px 0;
+	text-align: left;
+	padding: 20px 20px 10px 20px;
+	border-top: 1px solid #EEE;
+	border-right: 1px solid #EEE;
+	width: 25%;
+}
+
+#comments_table_wrapper table td {
+	padding: 0 20px 5px 20px;
+	color: #666;
+	font-size: 14px;
+	border-right: 1px solid #EEE;
+}
+
+#comments_table_wrapper table td#single {
+	font-size: 50px;
+	line-height: 46px;
+	font-weight: bold;
+	color: #BBB;
+}
+
+#comments_table_wrapper table td.legend {
+	padding-right: 0;
+	font-weight: bold;
+	border: none;
+	width: 1%;
+}
+
+#comments_table_wrapper table tr#last td {
+	padding-bottom: 20px;
+}
+
+#comments_container {
+	display: none;
+}
+
+#comments_container #rep_info {
+	border-top: 1px solid #EEE;
+	margin-top: 30px;
+}
+
+#container #showComments {
+	display: block;
+	width: 200px;
+	color: #09C;
+	margin: 30px auto 0 auto;
+	text-transform: uppercase;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+#container #showComments #icon {
+	float: right;
+	width: 12px;
+	height: 8px;
+	background: url(../../images/defaults.png) no-repeat -86px 0;
+	margin-top: 3px;
+}
+
+#container #showComments:hover {
+	color: #06C;
+}
+
+#container #showComments.selected {
+	width: 208px;
+}
+
+#container #showComments.selected #icon {
+	margin-top: 4px;
+	background-position: -86px -17px;
+}
+
+#container #calc_return {
+	width: 200px;
+	margin: 30px auto 0 auto;
+	display: block;
+	text-align: center;
+	float: none;
+}
+
+
+
+
+
+#courses h4 {
+	color: #09C;
+	margin: 30px 0 5px 0;
+}
+
+#combobox_courses {
+	position: relative;
+	width: 350px;
+	margin: 0 auto;
+	text-align: left;
+}
+
+#combobox_courses #button {
+	background: #09C;
+	color: #FFF;
+	font-size: 14px;
+	font-weight: bold;
+	text-transform: uppercase;
+	border-radius: 3px;
+	padding: 12px 40px 12px 18px;
+	display: block;
+	line-height: 16px;
+	position: relative;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+#combobox_courses #button:hover,
+#combobox_courses #button.actived {
+	background: #06C;
+}
+
+#combobox_courses #button:active {
+	-webkit-transform: scale(0.97);
+	-moz-transform: scale(0.97);
+	transform: scale(0.97);
+}
+
+#combobox_courses #button #icon {
+	position: absolute;
+	top: 50%;
+	right: 18px;
+	width: 14px;
+	height: 7px;
+	margin: -3px 0 0 0;
+	background: url(../../images/defaults.png) no-repeat 0 0;
+}
+
+#combobox_courses #button.actived #icon {
+	background-position: 0 -17px;
+}
+
+#combobox_courses #button #legend {
+	overflow: hidden;
+	display: block;
+	height: 16px;
+	position: relative;
+}
+
+#combobox_courses #button #legend:before {
+	content: "";
+	position: absolute;
+	top: -200%;
+	right: -52px;
+	pointer-events: none;
+	width: 45px;
+	height: 500%;
+	z-index: 1;
+	box-shadow: -30px 0 30px #09C;
+	-webkit-transition: box-shadow 0.4s;
+	-moz-transition: box-shadow 0.4s;
+	transition: box-shadow 0.4s;
+}
+
+#combobox_courses #button:hover #legend:before,
+#combobox_courses #button.actived #legend:before {
+	box-shadow: -30px 0 30px #06C;
+}
+
+#combobox_courses #button #legend span {
+	display: block;
+	width: 500%;
+	position: relative;
+}
+
+#combobox_courses #sub_menu {
+	position: absolute;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	background: #FFF;
+	top: 100%;
+	width: 100%;
+	border: 1px solid #EEE;
+	border-radius:0 0 3px 3px;
+	box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+	z-index: 2;
+	overflow: auto;
+	max-height: 300px;
+	display: none;
+	-webkit-transform-origin: top center;
+	-moz-transform-origin: top center;
+	transform-origin: top center;
+	-webkit-transform: scale(0.8);
+	-moz-transform: scale(0.8);
+	transform: scale(0.8);
+	-webkit-transition: transform 0.15s;
+	-moz-transition: transform 0.15s;
+	transition: transform 0.15s;
+}
+
+#combobox_courses #sub_menu.show {
+	-webkit-transform: scale(1);
+	-moz-transform: scale(1);
+	transform: scale(1);
+}
+
+#combobox_courses #sub_menu ul {
+	margin: 0;
+	padding: 10px 0;
+	list-style: none;
+}
+
+#combobox_courses #sub_menu #section {
+	position: relative;
+	border-top: 1px solid #EEE;
+}
+
+#combobox_courses #sub_menu ul li {
+	margin-left: 60px;
+	border-left: 1px solid #EEE;
+}
+
+#combobox_courses #sub_menu #sec_title {
+	font-size: 30px;
+	line-height: 30px;
+	font-weight: bold;
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 60px;
+	text-align: center;
+	margin: -15px 0 0 0;
+	color: #DDD;
+	cursor: default;
+	pointer-events: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+}
+
+#combobox_courses #sub_menu ul li a {
+	padding: 10px 15px;
+	display: block;
+}
+
+#combobox_courses #sub_menu ul li a:hover {
+	background: #F4F4F4;
+	color: #444;
+}
+
+#combobox_courses #sub_menu ul li a.selected {
+	color: #09C;
+}
+
+#container {
+	margin: 30px auto;
+}
+
+#semesters_wrapper {
+	width: 350px;
+	margin: 0 auto;
+	text-align: center;
+	position: relative;
+}
+
+#semesters_wrapper h4 {
+	margin: 0 0 8px 0;
+	color: #666;
+	position: relative;
+}
+
+#semesters_wrapper h4:before {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 0;
+	width: 100%;
+	height: 1px;
+	background: #E4E4E4;
+}
+
+#semesters_wrapper h4 span{
+	position: relative;
+	background: #FFF;
+	padding: 0 15px;
+}
+
+#semesters {
+	cursor: default;
+}
+
+#semesters a {
+	display: inline-block;
+	color: #444;
+	background: #FFF;
+	width: 32px;
+	height: 32px;
+	line-height: 32px;
+	font-size: 16px;
+	border-radius: 19px;
+	margin-top: 5px;
+	border: 3px solid #DDD;
+}
+
+#semesters a:hover,
+#semesters a.selected {
+	border-color: #999;
+}
+
+
+#subjects_container,
+#subjects_wrapper {
+	overflow: hidden;
+	position: relative;
+}
+
+#subjects_wrapper .sessions {
+	display: none;
+	width: 100%;
+	position: relative;
+	-webkit-transform: scale(0.5);
+	-moz-transform: scale(0.5);
+	transform: scale(0.5);
+	-webkit-transition: transform 0.2s;
+	-moz-transition: transform 0.2s;
+	transition: transform 0.2s;
+	z-index: 1;
+	background: #FFF;
+}
+
+#subjects_wrapper .sessions.selected {
+	display: block;
+	-webkit-transform: scale(1);
+	-moz-transform: scale(1);
+	transform: scale(1);
+}
+
+#subjects_wrapper .sessions.moving-in {
+	position: absolute;
+	left: 0;
+	top: 0;
+	-webkit-transform: scale(1);
+	-moz-transform: scale(1);
+	transform: scale(1);
+	z-index: 0;
+}
+
+#subjects_wrapper #subject {
+	display: none;
+	position: relative;
+	width: 100%;
+}
+
+#subjects_wrapper #subject.moving {
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	margin-left: 100%;
+}
+
+#subjects_wrapper #subject.moving.right {
+	margin-left: -100%;
+}
+
+#subjects_wrapper #subject.selected {
+	display: block;
+}
+
+#subjects_wrapper #subject h1 {
+	color: #444;
+	font-weight: normal;
+	margin: 30px 0 10px 0;
+}
+
+#subjects_wrapper #subject h3 {
+	color: #777;
+	font-weight: normal;
+	margin: 0 0 20px 0;
+}
+
+#subjects_wrapper #subject #text_field {
+	float: left;
+	width: 33.33333333%;
+	position: relative;
+}
+
+#subjects_wrapper #subject #field_wrapper {
+	position: relative;
+	margin: 0 40px 0 10px;
+}
+
+#subjects_wrapper #subject #text_field #legend {
+	display: block;
+	text-align: center;
+	font-size: 14px;
+	font-weight: bold;
+	color: #444;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+}
+
+#subjects_wrapper #subject #field_wrapper input {
+	border: none;
+	padding: 12px 15px;
+	background: #E4E4E4;
+	border-radius: 3px;
+	font-size: 16px;
+	color: #444;
+	width: 100%;
+	text-align: center;
+}
+
+#subjects_wrapper #subject #field_wrapper input:focus {
+	background: #CCC;
+}
+
+.nav-subjects {
+	margin: 40px 10px;
+}
+
+#calc_return,
+.nav-subjects a,
+#subjects_wrapper #submit {
+	width: 80px;
+	border-radius: 3px;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+	background: #09C;
+	padding: 10px 15px;
+	float: left;
+	color: #FFF;
+	font-weight: bold;
+	text-transform: uppercase;
+	font-size: 14px;
+	border: none;
+}
+
+#subjects_wrapper #submit {
+	display: block;
+	width: 200px;
+	margin: 0 auto;
+	float: none;
+}
+
+.nav-subjects a#next {
+	float: right;
+}
+
+#calc_return:hover,
+.nav-subjects a:hover,
+#subjects_wrapper #submit:hover {
+	background: #06C;
+	cursor: pointer;
+}
+
+#calc_return:active,
+.nav-subjects a:active,
+#subjects_wrapper #submit:active {
+	-webkit-transform: scale(0.95);
+	-moz-transform: scale(0.95);
+	transform: scale(0.95);
+}
+
+.nav-subjects a.disabled {
+	background: #09C;
+	cursor: default;
+	-webkit-transform: scale(1);
+	-moz-transform: scale(1);
+	transform: scale(1);
+	-webkit-opacity: 0.5;
+	-moz-opacity: 0.5;
+	opacity: 0.5;
+}
+
+
+/*ADAPTAR LAYOUT*/
+@media screen and (max-width:430px) {
+	
+	#combobox_courses,
+	#semesters_wrapper {
+		width: auto;
+	}
+	
+	#rep_info {
+		padding: 20px;
+	}
+	
+	#results_table_wrapper,
+	#comments_table_wrapper {
+		margin: 0 20px;
+	}
+	
+}

@@ -1,0 +1,125 @@
+#container {
+	width: 500px;
+	margin: 30px auto;
+}
+
+#form_wrapper h5 {
+	text-align: center;
+	font-weight: normal;
+	color: #999;
+}
+
+#form_wrapper #field {
+	position:relative;
+	margin: 20px 30px 0 0;
+}
+
+#form_wrapper #formCacheMessages {
+	font-size: 14px;
+	text-align: center;
+	padding: 10px 15px;
+	border-radius: 3px;
+}
+
+#form_wrapper #formCacheMessages.status-invalid {
+	color: #f44336;
+	background: #fee2e0;
+}
+
+#form_wrapper #formCacheMessages.status-valid {
+	color: #4caf50;
+	background: #e4f3e5;
+}
+
+#form_wrapper #fieldMessageCache {
+	color: #F00;
+	margin: 0;
+	font-size: 12px;
+	display: none;
+}
+
+#form_wrapper #fieldMessageCache.show {
+	display: block;
+}
+
+#form_wrapper #section_1,
+#form_wrapper #section_2 {
+	width: 47%;
+	float: left;
+}
+
+#form_wrapper #section_2 {
+	float: right;
+}
+
+#form_wrapper #field #legend {
+	font-size: 14px;
+	font-weight: bold;
+	color: #666;
+}
+
+#form_wrapper #field #legend span {
+	color: #F00;
+}
+
+#form_wrapper .txt-field {
+	border: none;
+	background: #EEE;
+	padding: 12px 15px;
+	font-size: 16px;
+	color: #444;
+	border-radius: 4px;
+	display: block;
+	width: 100%;
+	margin: 3px 0 5px 0;
+}
+
+#form_wrapper .txt-field:focus {
+	background: #DDD;
+}
+
+#form_wrapper .btn-field {
+	width: 200px;
+	border: none;
+	color: #FFF;
+	font-weight: bold;
+	font-size: 14px;
+	border-radius: 3px;
+	background: #09C;
+	padding: 10px 15px;
+	margin: 30px 0 0 0;
+	display: block;
+}
+
+#form_wrapper .btn-field:hover {
+	background: #06C;
+	cursor: pointer;
+}
+
+#form_wrapper .btn-field:active {
+	-webkit-transform: scale(0.98);
+	-moz-transform: scale(0.98);
+	transform: scale(0.98);
+}
+
+#form_wrapper #captcha {
+	margin-top: 30px;
+}
+
+
+
+/*ADAPTAR LAYOUT*/
+@media screen and (max-width:540px) {
+	#container {
+		width: auto;
+		margin: 0 20px;
+	}
+}
+
+@media screen and (max-width:440px) {
+	#form_wrapper #section_1,
+	#form_wrapper #section_2 {
+		float: none;
+		width: auto;
+	}
+}

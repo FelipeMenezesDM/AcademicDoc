@@ -1,0 +1,69 @@
+#container {
+	width: 700px;
+	margin: 0 auto;
+	color: #444;
+	padding-top: 30px;
+}
+
+#container a {
+	color: #09C;
+}
+
+#container a:hover {
+	text-decoration: underline;
+}
+
+#container ol {
+	counter-reset: item;
+	margin: 0;
+	padding: 0;
+}
+
+#container ol ol {
+	padding: 0 0 0 30px;
+}
+
+#container li {
+	display: block
+}
+#container li:before {
+	content: counters(item, ".") ".";
+	counter-increment: item;
+	float: left;
+	margin-right: 10px;
+}
+
+#container ol h2,
+#container ol > li {
+	font-weight: normal;
+	font-size: 22px;
+}
+
+#container ol h3,
+#container ol > li > ol li {
+	font-weight: normal;
+	font-size: 18px;
+}
+
+#container ol p,
+#container ol > li > ol li > ol li {
+	font-size: 16px;
+}
+
+#container ol img {
+	display: block;
+	margin: 0 auto;
+	max-width: 100%;
+	height: auto;
+}
+
+
+
+
+/*= ADAPTAR LAYOUT*/
+@media screen and (max-width:740px) {
+	#container {
+		width: auto;
+		margin: 0 20px;
+	}
+}

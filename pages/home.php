@@ -31,7 +31,7 @@ if( isset( $_POST[ "calculate" ] ) && isset( $courses[ ( $_POST[ "calculate" ] )
                             <th rowspan="2">AP3</th>
                             <th rowspan="2">Média</th>
                             <th rowspan="2">Situação</th>
-                            <th colspan="3">Pendências/SUBs*</th>
+                            <th colspan="3">Estimativas<span style="color:#F00;">*</span></th>
                         </tr>
                         <tr>
                         	<th colspan="1" id="sub_th">AP1</th>
@@ -39,6 +39,8 @@ if( isset( $_POST[ "calculate" ] ) && isset( $courses[ ( $_POST[ "calculate" ] )
                             <th colspan="1" id="sub_th">AP3</th>
                         </tr>
                         <?php
+						$averageCount = 0;
+						
 						for( $i = 0; $i < count( $courseinfo[ "subjects" ][ ( $session - 1 ) ] ); $i++ ) :
 							$calc = new controller\academicdocMain();
 							$calc->setAp1( @$_POST[ "ap1" ][ ( $_POST[ "calculate" ] ) ][ $session ][ ( $i + 1 ) ] );
@@ -48,9 +50,15 @@ if( isset( $_POST[ "calculate" ] ) && isset( $courses[ ( $_POST[ "calculate" ] )
 							$calc->calculate();
 							
 							$errors = $calc->getErrors();
-							$pendencies = $calc->getPendencies();
+							$estimates = $calc->getEstimates();
 							
-							$average += $calc->getAverage();
+							if( $calc->getPartialAverage() !== false ) :
+								$average += $calc->getPartialAverage();
+								$averageCount++;
+							elseif( $calc->getAverage() !== "-" ) :
+								$average += $calc->getAverage();
+								$averageCount++;
+							endif;
 						?>
                         <tr<?php if( $i % 2 == 0 ) echo ' class="bg-line"';?>>
                         	<td align="left"><?= $courseinfo[ "subjects" ][ ( $session - 1 ) ][ $i ];?></td>
@@ -81,17 +89,28 @@ if( isset( $_POST[ "calculate" ] ) && isset( $courses[ ( $_POST[ "calculate" ] )
                                 </div>
 								<?php endif;?>
                             </td>
-                            <td align="center"><?= $calc->getAverage();?></td>
+                            <td align="center">
+								<?php
+                                if( $calc->getAverage() == "-" && $calc->getPartialAverage() !== false ) :
+									
+									$partialAverage = $calc->getPartialAverage();
+									
+									echo $partialAverage;
+								else :
+									echo $calc->getAverage();
+								endif;
+								?>
+                            </td>
                             <td align="center"><?= $calc->getStatus();?></td>
-                            <td align="center" id="sub_td"><?php echo ( isset( $pendencies[ "AP1" ] ) ) ? $pendencies[ "AP1" ] : '-'; ?></td>
-                            <td align="center" id="sub_td"><?php echo ( isset( $pendencies[ "AP2" ] ) ) ? $pendencies[ "AP2" ] : '-'; ?></td>
-                            <td align="center" id="sub_td"><?php echo ( isset( $pendencies[ "AP3" ] ) ) ? $pendencies[ "AP3" ] : '-'; ?></td>
+                            <td align="center" id="sub_td"><?php echo ( isset( $estimates[ "AP1" ] ) ) ? $estimates[ "AP1" ] : '-'; ?></td>
+                            <td align="center" id="sub_td"><?php echo ( isset( $estimates[ "AP2" ] ) ) ? $estimates[ "AP2" ] : '-'; ?></td>
+                            <td align="center" id="sub_td"><?php echo ( isset( $estimates[ "AP3" ] ) ) ? $estimates[ "AP3" ] : '-'; ?></td>
                         </tr>
                         <?php
 						endfor;
 						?>
                     </table>
-                    <span id="footer_legend">* Notas de provas ainda não realizadas ou de substitutivas que devem ser alcançadas para se obter o valor mínimo de 5,0 pontos de média.</span>
+                    <span id="footer_legend"><span style="color:#F00;">*</span> Notas estimadas para se obter 5,0 pontos de média.</span>
 				</div>
                 
                 <div id="comments_container">
@@ -138,29 +157,38 @@ if( isset( $_POST[ "calculate" ] ) && isset( $courses[ ( $_POST[ "calculate" ] )
                             </tr>
                             <tr valign="top">
                                 <th colspan="3">Média geral</th>
-                                <th colspan="3">Total de pendências</th>
-                                <th colspan="3">Pendência mais alta</th>
-                                <th colspan="3">Pendência mais baixa</th>
+                                <th colspan="3">Notas não informadas</th>
+                                <th colspan="3">Maior nota estimada</th>
+                                <th colspan="3">Menor nota estimada</th>
                             </tr>
                             <tr valign="top">
-                                <td rowspan="3" colspan="3" id="single"><?php if( $newcalc->getPendenciesNum() === '-' ) echo floatval( number_format( ( $average / count( $courseinfo[ "subjects" ][ ( $session - 1 ) ] ) ), 1 ) ); else echo '-';?></td>
-                                <td rowspan="3" colspan="3" id="single"><?= $newcalc->getPendenciesNum();?></td>
+                                <td rowspan="3" colspan="3" id="single">
+								<?php
+								$subjectCount = count( $courseinfo[ "subjects" ][ ( $session - 1 ) ] );
+								
+								if( $averageCount == $subjectCount )
+									echo floatval( number_format( ( $average / $subjectCount ), 1 ) );
+								else
+									echo "-";
+								?>
+                                </td>
+                                <td rowspan="3" colspan="3" id="single"><?= $newcalc->getEstimatesNum();?></td>
                                 <td class="legend">Disc.:</td>
-                                <td colspan="2"><?= $newcalc->getHighestPendency()->subject;?></td>
+                                <td colspan="2"><?= $newcalc->getHighestEstimate()->subject;?></td>
                                 <td class="legend">Disc.:</td>
-                                <td colspan="2"><?= $newcalc->getLowestPendency()->subject;?></td>
+                                <td colspan="2"><?= $newcalc->getLowestEstimate()->subject;?></td>
                             </tr>
                             <tr valign="top">
                                 <td class="legend">Em:</td>
-                                <td colspan="2"><?= $newcalc->getHighestPendency()->test;?></td>
+                                <td colspan="2"><?= $newcalc->getHighestEstimate()->test;?></td>
                                 <td class="legend">Em:</td>
-                                <td colspan="2"><?= $newcalc->getLowestPendency()->test;?></td>
+                                <td colspan="2"><?= $newcalc->getLowestEstimate()->test;?></td>
                             </tr>
                             <tr id="last" valign="top">
                                 <td class="legend">Nota:</td>
-                                <td colspan="2"><?= $newcalc->getHighestPendency()->score;?></td>
+                                <td colspan="2"><?= $newcalc->getHighestEstimate()->score;?></td>
                                 <td class="legend">Nota:</td>
-                                <td colspan="2"><?= $newcalc->getLowestPendency()->score;?></td>
+                                <td colspan="2"><?= $newcalc->getLowestEstimate()->score;?></td>
                             </tr>
                         </table>
                     </div>

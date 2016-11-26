@@ -63,7 +63,7 @@
 	width: 7px;
 	height: 7px;
 	border-radius: 10px;
-	background: #999;
+	background: #09C;
 }
 
 #results_table_wrapper #error_display > a:hover,
@@ -77,14 +77,20 @@
 	right: 100%;
 	background: #FFF;
 	z-index: 1;
-	width: 100px;
-	margin: -10px 10px 0 0;
+	width: 150px;
+	margin: -12px 10px 0 0;
 	border-radius: 3px;
 	padding: 15px;
 	box-shadow: 0 2px 4px rgba(0,0,0,0.15);
 	font-size: 14px;
 	border: 1px solid #F4F4F4;
 	display: none;
+}
+
+#results_table_wrapper #error_display #sub_menu.in_bottom {
+	top: auto;
+	bottom: 0;
+	margin: 0 10px -12px 0;
 }
 
 #results_table_wrapper #error_display #sub_menu:before {
@@ -96,6 +102,11 @@
 	left: 100%;
 	top: 10px;
 	position: absolute;
+}
+
+#results_table_wrapper #error_display #sub_menu.in_bottom:before {
+	top: auto;
+	bottom: 10px;
 }
 
 #results_table_wrapper #footer_legend {

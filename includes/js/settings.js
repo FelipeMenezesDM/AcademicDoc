@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function() { "use strict";
 	
 	var externalClick = function(event) {
 		if( $(event.target).closest(".actived").length === 0 ) {

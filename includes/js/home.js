@@ -21,6 +21,17 @@ $(document).ready(function() { "use strict";
 			$(this).removeClass( "actived" ).parent().find( "#sub_menu" ).stop().fadeOut( 200 ).removeClass( "show" );
 		}else{
 			$(this).addClass( "actived" ).parent().find( "#sub_menu" ).stop().fadeIn( 200 ).addClass( "show" );
+			
+			if( !$(this).parent().find( "#sub_menu" ).is( "in_bottom" ) ) {
+				
+				var subMenuPos = $(this).parent().find( "#sub_menu" ).offset().top + $(this).parent().find( "#sub_menu" ).outerHeight(),
+					tablePos = $(this).closest( "table" ).offset().top + $(this).closest( "table" ).outerHeight(),
+					s_class = ( subMenuPos > ( tablePos - 10 ) ) ? "in_bottom" : "";
+					
+				$(this).parent().find( "#sub_menu" ).addClass( s_class );
+				
+			}
+			
 		}
 		
 		return false;

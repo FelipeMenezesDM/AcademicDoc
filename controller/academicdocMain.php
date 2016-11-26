@@ -12,11 +12,12 @@ class academicdocMain {
 	
 	//Vetores que recerem os erros de validação e as pendências, com os seus respectivos valores
 	private $_error = array(),
-			$_pendencies = array();
+			$_estimates = array();
 	
 	
 	//Média por disciplina
 	private $_average = '-';
+	private $_partialAverage = false;
 	
 	//Situação por disciplina
 	private $_status = '-';
@@ -24,7 +25,7 @@ class academicdocMain {
 	//Título da disciplina (Se o título não for informado, a classe retornará "Sem título")
 	private $_subject = 'Sem título';
 	
-	static $_pendenciesNum = '-';
+	static $_estimatesNum = '-';
 	
 	/**
 	 * Vetores da tabela de observações
@@ -34,8 +35,8 @@ class academicdocMain {
 	       $_lowest = array( "subject" => "---", "test" => "---", "score" => "---" ),
 		   $_hAverage = array( "subject" => "---", "score" => "---" ),
 		   $_lAverage = array( "subject" => "---", "score" => "---" ),
-		   $_hPendency = array( "subject" => "---", "test" => "---", "score" => "---" ),
-		   $_lPendency = array( "subject" => "---", "test" => "---", "score" => "---" );
+		   $_hEstimate = array( "subject" => "---", "test" => "---", "score" => "---" ),
+		   $_lEstimate = array( "subject" => "---", "test" => "---", "score" => "---" );
 	
 	
 	//Método que verifica se o valor informado é válido para cálculo
@@ -142,6 +143,34 @@ class academicdocMain {
 		
 	}
 	
+	private function setAverage( $average ) {
+		
+		/**
+		 * Atualiza os valores da maior média na tabela de obervações
+		 * Atualiza somente se a maior média atual não existir ou se $average for maior que a média já existente
+		**/
+		if( academicdocMain::$_hAverage[ "score" ] == "---" || $average >= academicdocMain::$_hAverage[ "score" ] ) {
+			academicdocMain::$_hAverage[ "score" ] = $this->roundNumbers( $average );
+			academicdocMain::$_hAverage[ "subject" ] = $this->_subject;
+		}
+		
+		/**
+		 * Atualiza os valores da menor média na tabela de obervações
+		 * Atualiza somente se a menor média atual não existir ou se $average for menor que a média já existente
+		**/
+		if( academicdocMain::$_lAverage[ "score" ] == "---" || $average <= academicdocMain::$_lAverage[ "score" ] ) {
+			academicdocMain::$_lAverage[ "score" ] = $this->roundNumbers( $average );
+			academicdocMain::$_lAverage[ "subject" ] = $this->_subject;
+		}
+		
+		//Se a média for maior ou igual a 5, determina-se que a situação é "Aprovado", senão, determina-se que a situação é "Reprovado"
+		if( $average >= 5 )
+			$this->_status = 'Aprovado ';
+		else
+			$this->_status = 'Reprovado';
+		
+	}
+	
 	
 	//Quanto pelo menos uma nota não é informada, esse metódo é responsável por calcular as pendências
 	private function partialResults() {
@@ -155,69 +184,78 @@ class academicdocMain {
 		$ap3 = ( $this->_ap3 !== false ? $this->_ap3 : 0 );
 		
 		//Calcula a média de acordo com as regras estatísticas da faculdade
-		$media = ( ( $ap1 * 0.3 ) + ( $ap2 * 0.3 ) + ( $ap3 * 0.4 ) );
+		$average = ( ( $ap1 * 0.3 ) + ( $ap2 * 0.3 ) + ( $ap3 * 0.4 ) );
 		
-		//$num divide a média por "2", para que as notas pendentes sejam calculadas quando duas avalizações não são informadas
-		$num = ( 5 - $media ) / 2;
-		
-		/**
-		 * $num1 calcula o valor que deve ser alcançado na pendência, caso essa pendência seja para a AP1 ou AP2, com peso de 30%.
-		 * Além disso, $num1 ainda tranforma esse valor em número do tipo "float" com, no máximo, duas casas após a vírgula.
-		**/
-		$num1 = $this->roundNumbers( ( ( $num * 100 ) / 30 ) );
-		
-		/**
-		 * $num2 calcula o valor que deve ser alcançado na pendência, caso essa pendência seja para a AP3, com peso de 40%.
-		 * Além disso, $num2 ainda tranforma esse valor em número do tipo "float" com, no máximo, duas casas após a vírgula.
-		**/
-		$num2 = $this->roundNumbers( ( ( $num * 100 ) / 40 ) );
-		
-		//Se todas as notas não houverem sido informadas, as pendências serão calculadas imediatamente e seus valores serão de "5" pontos.
-		if( $this->_ap1 === false && $this->_ap2  === false && $this->_ap3 === false ) {
-			$this->_pendencies = array( "AP1" => 5, "AP2" => 5, "AP3" => 5 );
+		if( $average >= 5 ) {
+			$test = ( ( $this->_ap1 === false ) ? "ap1" : ( ( $this->_ap2 === false ) ? "ap2" : "ap3" ) );
+			$this->_partialAverage = $this->roundNumbers( $average );
+			$this->setAverage( $average );
+			$this->_error[ $test ] = "Você não informou uma nota válida para a " . strtoupper( $test ) . ", mas alcançou uma média " . ( ( $average > 5 ) ? "superior" : "igual" ) . " a 5,0 pontos com as notas as outras avalizações.";
+			academicdocMain::$_estimatesNum += 1;
 		}else{
-			//Se a AP3 e se a AP1 OU a AP2 não forem informadas, as pendências receberam valores de $num2 e $num1, respectivamente
-			if( $this->_ap3  === false && ( $this->_ap1 === false || $this->_ap2 === false ) ) {
-				$this->_pendencies = array( ( $this->_ap1 === false ? 'AP1' : 'AP2' ) => $num1, "AP3" => $num2 );
+		
+			//$num divide a média por "2", para que as notas pendentes sejam calculadas quando duas avalizações não são informadas
+			$num = ( 5 - $average ) / 2;
+			
+			/**
+			 * $num1 calcula o valor que deve ser alcançado na pendência, caso essa pendência seja para a AP1 ou AP2, com peso de 30%.
+			 * Além disso, $num1 ainda tranforma esse valor em número do tipo "float" com, no máximo, duas casas após a vírgula.
+			**/
+			$num1 = $this->roundNumbers( ( ( $num * 100 ) / 30 ) );
+			
+			/**
+			 * $num2 calcula o valor que deve ser alcançado na pendência, caso essa pendência seja para a AP3, com peso de 40%.
+			 * Além disso, $num2 ainda tranforma esse valor em número do tipo "float" com, no máximo, duas casas após a vírgula.
+			**/
+			$num2 = $this->roundNumbers( ( ( $num * 100 ) / 40 ) );
+			
+			//Se todas as notas não houverem sido informadas, as pendências serão calculadas imediatamente e seus valores serão de "5" pontos.
+			if( $this->_ap1 === false && $this->_ap2  === false && $this->_ap3 === false ) {
+				$this->_estimates = array( "AP1" => 5, "AP2" => 5, "AP3" => 5 );
+			}else{
+				//Se a AP3 e se a AP1 OU a AP2 não forem informadas, as pendências receberam valores de $num2 e $num1, respectivamente
+				if( $this->_ap3  === false && ( $this->_ap1 === false || $this->_ap2 === false ) ) {
+					$this->_estimates = array( ( $this->_ap1 === false ? 'AP1' : 'AP2' ) => $num1, "AP3" => $num2 );
+				}
+				//Se a AP3 for informada, mas a AP1 e a AP3 não, ambas pendências receberão o valor de $num1
+				elseif( $this->_ap1 === false && $this->_ap2 === false ) {
+					$this->_estimates = array( "AP1" => $num1, "AP2" => $num1 );
+				}
+				//Se somente a AP3 não for informada, a pendência receberá o valor de $num2
+				elseif( $this->_ap3 === false ) {
+					$num2 = $this->roundNumbers( ( ( ( 5 - $average ) * 100 ) / 40 ) );
+					$this->_estimates[ "AP3" ] = ( $num2 < 0 ? 0 : $num2 );
+				}
+				//Se somente a AP1 OU somente a AP2 não for informada, a pendência redemerá o valor de $num1
+				elseif( $this->_ap1 === false || $this->_ap2 === false ) {
+					$num2 = $this->roundNumbers( ( ( ( 5 - $average ) * 100 ) / 30 ) );
+					$this->_estimates[ ( $this->_ap1 === false ? 'AP1' : 'AP2' ) ] = ( $num2 < 0 ? 0 : $num2 );
+				}
 			}
-			//Se a AP3 for informada, mas a AP1 e a AP3 não, ambas pendências receberão o valor de $num1
-			elseif( $this->_ap1 === false && $this->_ap2 === false ) {
-				$this->_pendencies = array( "AP1" => $num1, "AP2" => $num1 );
+			
+			//Aqui, os valores da maior e maior pendências são atualizados, semelhante ao que acontece no método updateGlobalValues();
+			$min = min( $this->_estimates );
+			$max = max( $this->_estimates );
+			
+			$lowest = academicdocMain::$_lEstimate;
+			$highest = academicdocMain::$_hEstimate;
+			
+			if( $lowest[ "score" ] === "---" || $min <= floatval( $lowest[ "score" ] ) ) {
+				academicdocMain::$_lEstimate[ "score" ] = ( ( $min === false ) ? "---" : $min );
+				academicdocMain::$_lEstimate[ "test" ] = array_search( $min, array_reverse( $this->_estimates ) );
+				academicdocMain::$_lEstimate[ "subject" ] = $this->_subject;
 			}
-			//Se somente a AP3 não for informada, a pendência receberá o valor de $num2
-			elseif( $this->_ap3 === false ) {
-				$num2 = $this->roundNumbers( ( ( ( 5 - $media ) * 100 ) / 40 ) );
-				$this->_pendencies[ "AP3" ] = ( $num2 < 0 ? 0 : $num2 );
+			
+			
+			if( $max >= floatval( $highest[ "score" ] ) ) {
+				academicdocMain::$_hEstimate[ "score" ] = ( $max === false ? "---" : $max );
+				academicdocMain::$_hEstimate[ "test" ] = array_search( $max, array_reverse( $this->_estimates ) );
+				academicdocMain::$_hEstimate[ "subject" ] = $this->_subject;
 			}
-			//Se somente a AP1 OU somente a AP2 não for informada, a pendência redemerá o valor de $num1
-			elseif( $this->_ap1 === false || $this->_ap2 === false ) {
-				$num2 = $this->roundNumbers( ( ( ( 5 - $media ) * 100 ) / 30 ) );
-				$this->_pendencies[ ( $this->_ap1 === false ? 'AP1' : 'AP2' ) ] = ( $num2 < 0 ? 0 : $num2 );
-			}
+			
+			//Atualiza o contador de pendências de acordo com o número que foi encontrado neste objeto, somando-se com o valor estático já existente
+			academicdocMain::$_estimatesNum += count( $this->_estimates );
 		}
-		
-		//Aqui, os valores da maior e maior pendências são atualizados, semelhante ao que acontece no método updateGlobalValues();
-		$min = min( $this->_pendencies );
-		$max = max( $this->_pendencies );
-		
-		$lowest = academicdocMain::$_lPendency;
-		$highest = academicdocMain::$_hPendency;
-		
-		if( $lowest[ "score" ] === "---" || $min <= floatval( $lowest[ "score" ] ) ) {
-			academicdocMain::$_lPendency[ "score" ] = ( ( $min === false ) ? "---" : $min );
-			academicdocMain::$_lPendency[ "test" ] = array_search( $min, array_reverse( $this->_pendencies ) );
-			academicdocMain::$_lPendency[ "subject" ] = $this->_subject;
-		}
-		
-		
-		if( $max >= floatval( $highest[ "score" ] ) ) {
-			academicdocMain::$_hPendency[ "score" ] = ( $max === false ? "---" : $max );
-			academicdocMain::$_hPendency[ "test" ] = array_search( $max, array_reverse( $this->_pendencies ) );
-			academicdocMain::$_hPendency[ "subject" ] = $this->_subject;
-		}
-		
-		//Atualiza o contador de pendências de acordo com o número que foi encontrado neste objeto, somando-se com o valor estático já existente
-		academicdocMain::$_pendenciesNum += count( $this->_pendencies );
 		
 	}
 	
@@ -225,34 +263,12 @@ class academicdocMain {
 	private function fullResults() {
 		
 		//Calcula a média ponderada
-		$media = ( ( $this->_ap1 * 0.3 ) + ( $this->_ap2 * 0.3 ) + ( $this->_ap3 * 0.4 ) );
+		$average = ( ( $this->_ap1 * 0.3 ) + ( $this->_ap2 * 0.3 ) + ( $this->_ap3 * 0.4 ) );
 		
 		//Atualiza a média que a disciplina atual obteve
-		$this->_average = $this->roundNumbers( $media );
+		$this->_average = $this->roundNumbers( $average );
 		
-		/**
-		 * Atualiza os valores da maior média na tabela de obervações
-		 * Atualiza somente se a maior média atual não existir ou se $media for maior que a média já existente
-		**/
-		if( academicdocMain::$_hAverage[ "score" ] == "---" || $media >= academicdocMain::$_hAverage[ "score" ] ) {
-			academicdocMain::$_hAverage[ "score" ] = $this->roundNumbers( $media );
-			academicdocMain::$_hAverage[ "subject" ] = $this->_subject;
-		}
-		
-		/**
-		 * Atualiza os valores da menor média na tabela de obervações
-		 * Atualiza somente se a menor média atual não existir ou se $media for menor que a média já existente
-		**/
-		if( academicdocMain::$_lAverage[ "score" ] == "---" || $media <= academicdocMain::$_lAverage[ "score" ] ) {
-			academicdocMain::$_lAverage[ "score" ] = $this->roundNumbers( $media );
-			academicdocMain::$_lAverage[ "subject" ] = $this->_subject;
-		}
-		
-		//Se a média for maior ou igual a 5, determina-se que a situação é "Aprovado", senão, determina-se que a situação é "Reprovado"
-		if( $this->_average >= 5 )
-			$this->_status = 'Aprovado';
-		else
-			$this->_status = 'Reprovado';
+		$this->setAverage( $average );
 			
 		
 	}
@@ -307,13 +323,13 @@ class academicdocMain {
 	}
 	
 	//Retorna as pendências
-	public function getPendencies() {
-		return $this->_pendencies;
+	public function getEstimates() {
+		return $this->_estimates;
 	}
 	
 	//Retorna o contador de pendências geral da classe "academicdocMain"
-	public function getPendenciesNum() {
-		return academicdocMain::$_pendenciesNum;
+	public function getEstimatesNum() {
+		return academicdocMain::$_estimatesNum;
 	}
 	
 	//Retorna as informações da maior nota geral como um objeto
@@ -337,19 +353,24 @@ class academicdocMain {
 	}
 	
 	//Retorna as informações da maior pendência geral como um objeto
-	public function getHighestPendency() {
-		return (object)academicdocMain::$_hPendency;
+	public function getHighestEstimate() {
+		return (object)academicdocMain::$_hEstimate;
 	}
 	
 	//Retorna as informações da menor pendência geral como um objeto
-	public function getLowestPendency() {
-		return (object)academicdocMain::$_lPendency;
+	public function getLowestEstimate() {
+		return (object)academicdocMain::$_lEstimate;
 	}
 	
 	
 	//Retorna o valor da média obtida na disciplina cujas notas estão sendo calculadas
 	public function getAverage() {
 		return $this->_average;
+	}
+	
+	//Retorna o valor da média parcial obtida na disciplina cujas notas válidas estão sendo calculadas
+	public function getPartialAverage() {
+		return $this->_partialAverage;
 	}
 	
 	//Retorna a situação quanto a alcançada - ou não - na disciplina cujas notas estão sendo calculadas

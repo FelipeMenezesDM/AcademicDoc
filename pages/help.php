@@ -67,7 +67,7 @@
                                     <br>
                                     <p><strong>Observações:</strong></p>
                                     <p>1.	Não é necessário informar todas as notas;</p>
-                                    <p>2.	Nos campos são aceitos somente números de 0 a 10, os valores diferentes destes não serão considerados para o cálculo e sua avaliação será classificada como uma "pendência".</p>
+                                    <p>2.	Nos campos, são aceitos somente números de 0 a 10, os valores diferentes destes não serão considerados para o cálculo e sua avaliação será classificada como uma "pendência".</p>
                             	</ol>
                             </li>
                             <li>
@@ -76,9 +76,9 @@
                                 <ol>
 									<p>1.	Coluna onde são mostradas todas as disciplinas do semestre;</p>
                                     <p>2.	Colunas onde são mostradas as notas submetidas;</p>
-                                    <p>3.	Coluna onde é mostrada a média final, individual para cada disciplina (essa informação é mostrada somente quando todas as notas da respectiva disciplina são informadas);</p>
-                                    <p>4.	Coluna onde é mostrado o resultado de acordo com a média, ou seja, para médias abaixo de 5 pontos a coluna imprime "Reprovado", senão, imprime "Aprovado".</p>
-                                    <p>5.	Coluna onde são mostradas as pendências existentes, com os respectivos valores a serem alcançados para que se obtenha a média mínima de 5 pontos.</p>
+                                    <p>3.	Coluna onde é mostrada a média final, individual para cada disciplina (essa informação é mostrada somente quando todas as notas da respectiva disciplina são informadas ou quanto a média entre duas notas informadas for superior ou igual a 5,0 pontos);</p>
+                                    <p>4.	Coluna onde é mostrado o resultado de acordo com a média, ou seja, para médias abaixo de 5 pontos, a coluna imprime "Reprovado", senão, imprime "Aprovado".</p>
+                                    <p>5.	Coluna onde são mostradas as notas cujos valores são uma estimativa do que deve ser alcançado em determinada avaliação para que se obtenha a média mínima de 5 pontos na disciplina.</p>
                                     <br>
                                     <p><strong>Observações:</strong></p>
                                     <p>1.	Quando o usuário quiser saber a nota que deverá alcançar em determinada avaliação para ser aprovado, basta deixar o campo desta avaliação em branco quando submeter as notas para cálculo.</p>
@@ -91,14 +91,14 @@
                                     <p>1.	Colunas onde são mostradas, respectivamente, a maior e a menor notas obtidas nas avaliações;</p>
                                     <p>2.	Colunas onde são mostradas, respectivamente, a maior e a menor médias obtidas nas avaliações;</p>
                                     <p>3.	Coluna onde é mostrada a média geral obtida nas avaliações;</p>
-                                    <p>4.	Coluna onde é mostrado o número total de pendências existentes;</p>
-                                    <p>5.	Colunas onde são mostradas, respectivamente, a maior e a menor pendências existentes;</p>
+                                    <p>4.	Coluna onde é mostrado o número total de notas que não foram informadas ou que são inválidas;</p>
+                                    <p>5.	Colunas onde são mostradas, respectivamente, a maior e a menor estimativa existentes;</p>
                                     <p>6.	Botão para mostrar/esconder as observações.</p>
                                     <br>
                                     <p><strong>Observações:</strong></p>
-                                    <p>1.	As colunas "Maior nota", "Menor nota", "Maior média" e "Menor média" são preenchidas somente quando pelo menos uma nota válida é submetida na calculadora;</p>
+                                    <p>1.	As colunas "Maior nota", "Menor nota", "Maior média" e "Menor média" são preenchidas somente quando, pelo menos, uma nota válida é submetida na calculadora;</p>
                                     <p>2.	A coluna "Média geral" é preenchida somente quando TODAS as notas das disciplinas do semestre são válidas;</p>
-                                    <p>3.	As colunas "Pendência mais alta" e "Pendência mais baixa" são preenchidas somente quando pelo menos UMA nota não for informada ou não for válida.</p>
+                                    <p>3.	As colunas "Maior nota estimada" e "Menor nota estimada" são preenchidas somente quando, pelo menos, UMA nota não for informada ou não for válida.</p>
                                 </ol>
                             </li>
                         </ol>

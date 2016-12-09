@@ -190,7 +190,7 @@ class academicdocMain {
 			$test = ( ( $this->_ap1 === false ) ? "ap1" : ( ( $this->_ap2 === false ) ? "ap2" : "ap3" ) );
 			$this->_partialAverage = $this->roundNumbers( $average );
 			$this->setAverage( $average );
-			$this->_error[ $test ] = "Você não informou uma nota válida para a " . strtoupper( $test ) . ", mas alcançou uma média " . ( ( $average > 5 ) ? "superior" : "igual" ) . " a 5,0 pontos com as notas as outras avalizações.";
+			$this->_error[ $test ] = "Você não informou uma nota válida para a " . strtoupper( $test ) . ", mas alcançou uma média " . ( ( $average > 5 ) ? "superior" : "igual" ) . " a 5,0 pontos com as notas das outras avalizações.";
 			academicdocMain::$_estimatesNum += 1;
 		}else{
 		
